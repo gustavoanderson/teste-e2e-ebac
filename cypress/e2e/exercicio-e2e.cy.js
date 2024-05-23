@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+const perfil = require('../fixtures/perfil.json')
 
 context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
   /*  Como cliente 
@@ -10,13 +11,30 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
       E validando minha compra ao final */
 
   beforeEach(() => {
-      cy.visit('/')
+    cy.visit('minha-conta')
   });
 
   it('Deve fazer um pedido na loja Ebac Shop de ponta a ponta', () => {
-      //TODO: Coloque todo o fluxo de teste aqui, considerando as boas práticas e otimizações
-      
+    cy.get('#username').type(perfil.usuario)
+    cy.get('#password').type(perfil.senha)
+    cy.get('.woocommerce-form > .button').click()
+    cy.visit('produtos')
+    cy.get('.post-3111 > .product-block > .block-inner > .image > .product-image > .image-hover').click()
+    cy.get('.button-variable-item-M').click()
+    cy.get('.button-variable-item-Brown').click()
+    cy.get('.single_add_to_cart_button').click()
+    cy.visit('carrinho')
+    cy.get('.plus').click()
+    cy.get('.plus').click()
+    cy.get('.plus').click()
+    cy.get('.checkout-button').click()
+    cy.get('#payment_method_cod').click()
+    cy.get('#billing_first_name').clear().type('Gustavo')
+    cy.get('#billing_last_name').clear().type('Anderson')
+    cy.get('#billing_company').clear().type('Testando Cypress Loja EBAC')
+    cy.get('#terms')
+    cy.get('#terms').click()
+    cy.get('#place_order').click()
+    cy.get('.woocommerce-notice').should('contain' , 'Obrigado. Seu pedido foi recebido.')  
   });
-
-
 })
