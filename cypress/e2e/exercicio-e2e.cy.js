@@ -12,17 +12,11 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
 
   beforeEach(() => {
     cy.visit('minha-conta')
+    cy.logar('perfil.usuario', 'perfil.senha')
+    cy.adicionarProduto()
   });
 
   it('Deve fazer um pedido na loja Ebac Shop de ponta a ponta', () => {
-    cy.get('#username').type(perfil.usuario)
-    cy.get('#password').type(perfil.senha)
-    cy.get('.woocommerce-form > .button').click()
-    cy.visit('produtos')
-    cy.get('.post-3111 > .product-block > .block-inner > .image > .product-image > .image-hover').click()
-    cy.get('.button-variable-item-M').click()
-    cy.get('.button-variable-item-Brown').click()
-    cy.get('.single_add_to_cart_button').click()
     cy.visit('carrinho')
     cy.get('.plus').click()
     cy.get('.plus').click()
